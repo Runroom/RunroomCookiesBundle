@@ -15,15 +15,18 @@ namespace Runroom\CookiesBundle\Tests\Unit;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Runroom\CookiesBundle\Entity\CookiesPage;
+use Runroom\CookiesBundle\Factory\CookiesPageFactory;
 use Runroom\CookiesBundle\Form\Type\CookiesFormType;
 use Runroom\CookiesBundle\Repository\CookiesPageRepository;
 use Runroom\CookiesBundle\Service\CookiesPageService;
 use Runroom\CookiesBundle\ViewModel\CookiesPageViewModel;
 use Runroom\FormHandlerBundle\FormHandler;
+use Zenstruck\Foundry\Test\Factories;
 
 class CookiesPageServiceTest extends TestCase
 {
+    use Factories;
+
     /** @var MockObject&CookiesPageRepository */
     private $repository;
 
@@ -48,7 +51,7 @@ class CookiesPageServiceTest extends TestCase
     /** @test */
     public function itGetsViewModel(): void
     {
-        $cookiesPage = new CookiesPage();
+        $cookiesPage = CookiesPageFactory::createOne()->object();
         $this->repository->expects(self::once())->method('find')->with(1)->willReturn($cookiesPage);
 
         $this->handler->expects(self::once())->method('handleForm')
